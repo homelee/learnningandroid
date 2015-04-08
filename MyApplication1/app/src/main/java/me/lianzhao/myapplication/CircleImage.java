@@ -1,15 +1,16 @@
 package me.lianzhao.myapplication;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -20,9 +21,7 @@ import android.view.View;
 public class CircleImage extends View {
 
     private Paint _circleImagePaint;
-    private Paint _circleBorderPaint;
-
-    private Bitmap _circleBitmap;
+    private Paint _borderPaint;
 
     public CircleImage(Context context) {
         super(context);
@@ -32,11 +31,40 @@ public class CircleImage extends View {
     public CircleImage(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
+
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CircleImage, 0, 0);
+        initBorder(typedArray);
     }
 
     public CircleImage(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
+
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CircleImage, defStyleAttr, 0);
+        initBorder(typedArray);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public CircleImage(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        initView();
+
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CircleImage, defStyleAttr, defStyleRes);
+        initBorder(typedArray);
+    }
+
+    private void initBorder(TypedArray typedArray) {
+        try {
+            int borderWidth = typedArray.getInt(R.styleable.CircleImage_borderWidth, 0);
+            int borderColor = typedArray.getColor(R.styleable.CircleImage_borderColor, Color.TRANSPARENT);
+            _borderPaint = new Paint();
+            _borderPaint.setAntiAlias(false);
+            _borderPaint.setStyle(Paint.Style.STROKE);
+            _borderPaint.setStrokeWidth(borderWidth);
+            _borderPaint.setColor(borderColor);
+        } finally {
+            typedArray.recycle();
+        }
     }
 
     private void initView(){
@@ -57,6 +85,6 @@ public class CircleImage extends View {
         _circleImagePaint.setShader(bitmapShader);
 
         canvas.drawCircle(center, center, center, _circleImagePaint);
-
+        canvas.drawCircle(center, center, center, _borderPaint);
     }
 }
