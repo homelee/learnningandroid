@@ -20,8 +20,8 @@ import android.view.View;
  */
 public class CircleImage extends View {
 
-    private Paint _circleImagePaint;
-    private Paint _borderPaint;
+    private Paint circleImagePaint;
+    private Paint borderPaint;
 
     public CircleImage(Context context) {
         super(context);
@@ -57,19 +57,19 @@ public class CircleImage extends View {
         try {
             int borderWidth = typedArray.getInt(R.styleable.CircleImage_borderWidth, 0);
             int borderColor = typedArray.getColor(R.styleable.CircleImage_borderColor, Color.TRANSPARENT);
-            _borderPaint = new Paint();
-            _borderPaint.setAntiAlias(false);
-            _borderPaint.setStyle(Paint.Style.STROKE);
-            _borderPaint.setStrokeWidth(borderWidth);
-            _borderPaint.setColor(borderColor);
+            borderPaint = new Paint();
+            borderPaint.setAntiAlias(false);
+            borderPaint.setStyle(Paint.Style.STROKE);
+            borderPaint.setStrokeWidth(borderWidth);
+            borderPaint.setColor(borderColor);
         } finally {
             typedArray.recycle();
         }
     }
 
     private void initView(){
-        _circleImagePaint = new Paint();
-        _circleImagePaint.setAntiAlias(false);
+        circleImagePaint = new Paint();
+        circleImagePaint.setAntiAlias(false);
     }
 
     @Override
@@ -82,9 +82,9 @@ public class CircleImage extends View {
         int center = canvasSize/2;
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, canvasSize, canvasSize, false);
         BitmapShader bitmapShader = new BitmapShader(scaledBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-        _circleImagePaint.setShader(bitmapShader);
+        circleImagePaint.setShader(bitmapShader);
 
-        canvas.drawCircle(center, center, center, _circleImagePaint);
-        canvas.drawCircle(center, center, center, _borderPaint);
+        canvas.drawCircle(center, center, center, circleImagePaint);
+        canvas.drawCircle(center, center, center, borderPaint);
     }
 }

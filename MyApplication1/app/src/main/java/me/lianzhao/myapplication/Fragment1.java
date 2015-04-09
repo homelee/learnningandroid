@@ -19,8 +19,8 @@ public class Fragment1 extends Fragment {
     @InjectView(R.id.rightView)
     View rightView;
 
-    private int _leftColor;
-    private int _rightColor;
+    private int leftColor;
+    protected int rightColor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,8 +29,8 @@ public class Fragment1 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fragment1, container, false);
         ButterKnife.inject(this, view);
 
-        leftView.setBackgroundColor(_leftColor);
-        rightView.setBackgroundColor(_rightColor);
+        leftView.setBackgroundColor(leftColor);
+        rightView.setBackgroundColor(rightColor);
 
         return view;
     }
@@ -41,8 +41,8 @@ public class Fragment1 extends Fragment {
 
         TypedArray typedArray = activity.obtainStyledAttributes(attrs, R.styleable.Fragment1);
         try {
-            _leftColor = typedArray.getColor(R.styleable.Fragment1_leftColor, 0);
-            _rightColor = typedArray.getColor(R.styleable.Fragment1_rightColor, 0);
+            leftColor = typedArray.getColor(R.styleable.Fragment1_leftColor, 0);
+            rightColor = typedArray.getColor(R.styleable.Fragment1_rightColor, 0);
         } finally {
             typedArray.recycle();
         }
