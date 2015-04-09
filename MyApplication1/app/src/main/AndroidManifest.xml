@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CustomViewActivity"
+            android:label="@string/title_activity_custom_view" />
+        <activity
+            android:name=".FragmentsActivity"
+            android:label="@string/title_activity_fragments" />
     </application>
 
 </manifest>

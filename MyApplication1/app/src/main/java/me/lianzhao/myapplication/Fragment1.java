@@ -9,7 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class Fragment1 extends Fragment {
+
+    @InjectView(R.id.leftView)
+    View leftView;
+    @InjectView(R.id.rightView)
+    View rightView;
 
     private int _leftColor;
     private int _rightColor;
@@ -19,8 +27,8 @@ public class Fragment1 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment1, container, false);
-        View leftView = view.findViewById(R.id.leftView);
-        View rightView = view.findViewById(R.id.rightView);
+        ButterKnife.inject(this, view);
+
         leftView.setBackgroundColor(_leftColor);
         rightView.setBackgroundColor(_rightColor);
 
@@ -38,5 +46,11 @@ public class Fragment1 extends Fragment {
         } finally {
             typedArray.recycle();
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
 }
