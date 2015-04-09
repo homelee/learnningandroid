@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="Fragment1">
+        <attr name="leftColor" format="color|reference" />
+        <attr name="rightColor" format="color|reference" />
+    </declare-styleable>
+</resources>

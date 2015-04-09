@@ -10,20 +10,28 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <me.lianzhao.myapplication.CircleImage
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:id="@+id/ci"
-        app:borderColor="#FFFF0000"
-        app:borderWidth="3"
-        />
+    <!--<me.lianzhao.myapplication.CircleImage-->
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="150dp"-->
+    <!--android:id="@+id/ci"-->
+    <!--app:borderColor="#FFFF0000"-->
+    <!--app:borderWidth="3"-->
+    <!--/>-->
 
-    <ImageView
-        android:layout_width="150dp"
+    <!--<ImageView-->
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="150dp"-->
+    <!--android:id="@+id/iv"-->
+    <!--android:contentDescription="This is a sample image."-->
+    <!--android:src="@drawable/sample"-->
+    <!--/>-->
+
+    <fragment
+        android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:id="@+id/iv"
-        android:contentDescription="This is a sample image."
-        android:src="@drawable/sample"
-        />
+        android:name="me.lianzhao.myapplication.Fragment1"
+        android:id="@+id/fragment1"
+        app:leftColor="#FFFF0000"
+        app:rightColor="#FF00FF00" />
 
 </LinearLayout>
