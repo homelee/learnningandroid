@@ -5,6 +5,7 @@ import android.media.MediaCodec;
 import android.media.MediaExtractor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,7 +13,16 @@ import android.view.MenuItem;
 import android.view.Surface;
 import android.view.TextureView;
 
+import net.chilicat.m3u8.Element;
+import net.chilicat.m3u8.ParseException;
+import net.chilicat.m3u8.Playlist;
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -36,6 +46,9 @@ public class HlsPlayerActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hls_player);
         ButterKnife.inject(this);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     @Override
@@ -74,9 +87,13 @@ public class HlsPlayerActivity extends ActionBarActivity {
 //                + getPackageName() + "/"
 //                + R.raw.vid_bigbuckbunny);
 
-        Uri videoUri = Uri.parse("http://walterebert.com/playground/video/hls/ts/480x2701.ts");
 
         try {
+
+            String uri = getFirstPlaybackUri("http://walterebert.com/playground/video/hls/sintel-trailer.m3u8");
+
+            //Uri videoUri = Uri.parse("http://walterebert.com/playground/video/hls/ts/480x2701.ts");
+            Uri videoUri = Uri.parse(uri);
 
             // BEGIN_INCLUDE(initialize_extractor)
             mExtractor.setDataSource(this, videoUri, null);
@@ -155,8 +172,34 @@ public class HlsPlayerActivity extends ActionBarActivity {
             // We're all set. Kick off the animator to process buffers and render video frames as
             // they become available
             mTimeAnimator.start();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String getFirstPlaybackUri(String hlsUri) throws IOException, ParseException {
+
+        URL url = new URL(hlsUri);
+        URLConnection urlConnection = url.openConnection();
+        InputStream inputStream = urlConnection.getInputStream();
+        Playlist playlist = Playlist.parse(inputStream);
+        List<Element> elements = playlist.getElements();
+        Element element = elements.get(0);
+        URI elementURI = element.getURI();
+        if (element.isMedia()) {
+            return getAbsoluteUri(hlsUri, elementURI);
+        }
+        return getFirstPlaybackUri(getAbsoluteUri(hlsUri, elementURI));
+    }
+
+    private String getAbsoluteUri(String hlsUri, URI uri) {
+        String result;
+        if (uri.isAbsolute()) {
+            result = uri.toString();
+        } else {
+            String substring = hlsUri.substring(0, hlsUri.lastIndexOf('/'));
+            result = substring + "/" + uri.toString();
+        }
+        return result;
     }
 }
