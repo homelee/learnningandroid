@@ -6,4 +6,5 @@
     <string name="title_activity_custom_view">CustomViewActivity</string>
     <string name="title_activity_fragments">FragmentsActivity</string>
     <string name="title_activity_slices">SlicesActivity</string>
+    <string name="title_activity_hls_player">HlsPlayerActivity</string>
 </resources>
