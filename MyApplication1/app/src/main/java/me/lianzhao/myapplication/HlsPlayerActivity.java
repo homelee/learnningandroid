@@ -90,7 +90,8 @@ public class HlsPlayerActivity extends ActionBarActivity {
 
         try {
 
-            String uri = getFirstPlaybackUri("http://walterebert.com/playground/video/hls/sintel-trailer.m3u8");
+            //String uri = getFirstPlaybackUri("http://walterebert.com/playground/video/hls/sintel-trailer.m3u8");
+            String uri = getFirstPlaybackUri("http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8");
 
             //Uri videoUri = Uri.parse("http://walterebert.com/playground/video/hls/ts/480x2701.ts");
             Uri videoUri = Uri.parse(uri);
