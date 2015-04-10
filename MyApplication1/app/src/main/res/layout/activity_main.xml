@@ -26,4 +26,10 @@
         android:layout_height="wrap_content"
         android:text="Slices"
         android:onClick="navigation" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HlsPlayer"
+        android:onClick="navigation" />
 </LinearLayout>
