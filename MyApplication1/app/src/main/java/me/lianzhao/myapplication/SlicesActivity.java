@@ -1,26 +1,20 @@
 package me.lianzhao.myapplication;
 
 import android.animation.TimeAnimator;
+import android.graphics.SurfaceTexture;
 import android.media.MediaCodec;
 import android.media.MediaExtractor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.Surface;
 import android.view.TextureView;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+
+public class SlicesActivity extends ActionBarActivity implements TextureView.SurfaceTextureListener {
 
 
-public class SlicesActivity extends ActionBarActivity {
-
-
-    @InjectView(R.id.playbackView)
     TextureView playbackView;
 
     private int currentFrame;
@@ -39,8 +33,18 @@ public class SlicesActivity extends ActionBarActivity {
         StrictMode.setThreadPolicy(policy);
 
         setContentView(R.layout.activity_slices);
-        ButterKnife.inject(this);
+        //ButterKnife.inject(this);
+
+        playbackView = (TextureView) findViewById(R.id.playbackView);
+        playbackView.setSurfaceTextureListener(this);
+        //startPlayback();
     }
+
+    //    @Override
+//    protected void onPostCreate(Bundle savedInstanceState) {
+//        super.onPostCreate(savedInstanceState);
+//        startPlayback();
+//    }
 
     @Override
     protected void onPause() {
@@ -55,23 +59,7 @@ public class SlicesActivity extends ActionBarActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_hls_player, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_play) {
-            startPlayback();
-            item.setEnabled(false);
-        }
-        return true;
-    }
-
-    public void startPlayback() {
+    private void startPlayback() {
 
         // Construct a URI that points to the video resource that we want to play
 //        Uri videoUri = Uri.parse("android.resource://"
@@ -175,5 +163,25 @@ public class SlicesActivity extends ActionBarActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+        startPlayback();
+    }
+
+    @Override
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+
+    }
+
+    @Override
+    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+        return false;
+    }
+
+    @Override
+    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
     }
 }
