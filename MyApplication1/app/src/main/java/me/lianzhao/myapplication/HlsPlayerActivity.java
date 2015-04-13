@@ -13,17 +13,6 @@ import android.view.MenuItem;
 import android.view.Surface;
 import android.view.TextureView;
 
-import net.chilicat.m3u8.Element;
-import net.chilicat.m3u8.ParseException;
-import net.chilicat.m3u8.Playlist;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -91,7 +80,11 @@ public class HlsPlayerActivity extends ActionBarActivity {
         try {
 
             //String uri = getFirstPlaybackUri("http://walterebert.com/playground/video/hls/sintel-trailer.m3u8");
-            String uri = getFirstPlaybackUri("http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8");
+            String uri = HlsHelper.getFirstPlaybackUri("http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8");
+
+//            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+//            mediaMetadataRetriever.setDataSource(uri);
+//            Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST);
 
             //Uri videoUri = Uri.parse("http://walterebert.com/playground/video/hls/ts/480x2701.ts");
             Uri videoUri = Uri.parse(uri);
@@ -163,6 +156,7 @@ public class HlsPlayerActivity extends ActionBarActivity {
                         mExtractor.release();
                     } else if (out_bufferInfo.presentationTimeUs / 1000 < totalTime) {
                         // Pop the sample off the queue and send it to {@link Surface}
+
                         mCodecWrapper.popSample(true);
                     }
                     // END_INCLUDE(render_sample)
@@ -177,30 +171,5 @@ public class HlsPlayerActivity extends ActionBarActivity {
             e.printStackTrace();
         }
     }
-
-    private String getFirstPlaybackUri(String hlsUri) throws IOException, ParseException {
-
-        URL url = new URL(hlsUri);
-        URLConnection urlConnection = url.openConnection();
-        InputStream inputStream = urlConnection.getInputStream();
-        Playlist playlist = Playlist.parse(inputStream);
-        List<Element> elements = playlist.getElements();
-        Element element = elements.get(0);
-        URI elementURI = element.getURI();
-        if (element.isMedia()) {
-            return getAbsoluteUri(hlsUri, elementURI);
-        }
-        return getFirstPlaybackUri(getAbsoluteUri(hlsUri, elementURI));
-    }
-
-    private String getAbsoluteUri(String hlsUri, URI uri) {
-        String result;
-        if (uri.isAbsolute()) {
-            result = uri.toString();
-        } else {
-            String substring = hlsUri.substring(0, hlsUri.lastIndexOf('/'));
-            result = substring + "/" + uri.toString();
-        }
-        return result;
-    }
 }
+
