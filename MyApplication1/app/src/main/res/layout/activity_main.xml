@@ -32,4 +32,10 @@
         android:layout_height="wrap_content"
         android:text="HlsPlayer"
         android:onClick="navigation" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VideoView"
+        android:onClick="navigation" />
 </LinearLayout>

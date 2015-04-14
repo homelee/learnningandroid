@@ -31,6 +31,9 @@
         <activity
             android:name=".HlsPlayerActivity"
             android:label="@string/title_activity_hls_player" />
+        <activity
+            android:name=".VideoViewActivity"
+            android:label="@string/title_activity_video_view" />
     </application>
 
 </manifest>
